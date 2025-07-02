@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useCallback, useRef } from 'react';
 
 const PongGame = () => {
@@ -227,44 +226,134 @@ const PongGame = () => {
     setGameStarted(true);
   };
 
-  // Initial draw
   useEffect(() => {
     draw();
   }, [draw]);
 
+  const gameContainerStyle: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '100vh',
+    padding: '20px',
+    backgroundColor: '#1a1a1a',
+    fontFamily: 'Arial, sans-serif'
+  };
+
+  const headerStyle: React.CSSProperties = {
+    textAlign: 'center',
+    marginBottom: '30px',
+    color: 'white'
+  };
+
+  const titleStyle: React.CSSProperties = {
+    fontSize: '2.5rem',
+    fontWeight: 'bold',
+    margin: '0 0 20px 0',
+    color: '#00ccff'
+  };
+
+  const scoreContainerStyle: React.CSSProperties = {
+    display: 'flex',
+    gap: '40px',
+    fontSize: '1.5rem',
+    fontWeight: 'bold'
+  };
+
+  const playerScoreStyle: React.CSSProperties = {
+    color: '#00ff88'
+  };
+
+  const aiScoreStyle: React.CSSProperties = {
+    color: '#ff4444'
+  };
+
+  const gameAreaStyle: React.CSSProperties = {
+    position: 'relative'
+  };
+
+  const canvasStyle: React.CSSProperties = {
+    border: '3px solid #00ccff',
+    borderRadius: '8px',
+    backgroundColor: '#000',
+    cursor: 'none'
+  };
+
+  const overlayStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '8px'
+  };
+
+  const gameOverStyle: React.CSSProperties = {
+    textAlign: 'center',
+    marginBottom: '20px',
+    color: 'white'
+  };
+
+  const buttonStyle: React.CSSProperties = {
+    padding: '12px 24px',
+    fontSize: '1.1rem',
+    fontWeight: 'bold',
+    backgroundColor: '#00ccff',
+    color: 'black',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s'
+  };
+
+  const instructionsStyle: React.CSSProperties = {
+    color: '#ccc',
+    marginTop: '20px',
+    textAlign: 'center',
+    fontSize: '0.9rem'
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <div className="text-center mb-6">
-        <h2 className="text-4xl font-bold text-white mb-4">Pong</h2>
-        <div className="flex justify-center gap-8 text-2xl font-bold">
-          <span className="text-green-400">Player: {score.player}</span>
-          <span className="text-red-400">AI: {score.ai}</span>
+    <div style={gameContainerStyle}>
+      <div style={headerStyle}>
+        <h2 style={titleStyle}>Pong</h2>
+        <div style={scoreContainerStyle}>
+          <span style={playerScoreStyle}>Player: {score.player}</span>
+          <span style={aiScoreStyle}>AI: {score.ai}</span>
         </div>
       </div>
 
-      <div className="relative">
+      <div style={gameAreaStyle}>
         <canvas
           ref={canvasRef}
           width={CANVAS_WIDTH}
           height={CANVAS_HEIGHT}
-          className="border-4 border-cyan-400 rounded-lg shadow-2xl bg-black cursor-none"
+          style={canvasStyle}
         />
 
         {(!gameStarted || gameOver) && (
-          <div className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center rounded-lg">
+          <div style={overlayStyle}>
             {gameOver && (
-              <div className="text-center mb-4">
-                <h3 className="text-3xl font-bold text-cyan-400 mb-2">
+              <div style={gameOverStyle}>
+                <h3 style={{ fontSize: '2rem', color: '#00ccff', margin: '0 0 10px 0' }}>
                   {score.player >= WINNING_SCORE ? 'You Win!' : 'AI Wins!'}
                 </h3>
-                <p className="text-white">
+                <p style={{ margin: 0 }}>
                   Final Score: {score.player} - {score.ai}
                 </p>
               </div>
             )}
             <button
               onClick={startGame}
-              className="px-6 py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-bold rounded-lg transition-colors"
+              style={buttonStyle}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0099cc'}
+              onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#00ccff'}
             >
               {gameOver ? 'Play Again' : 'Start Game'}
             </button>
@@ -272,7 +361,7 @@ const PongGame = () => {
         )}
       </div>
 
-      <p className="text-gray-400 mt-4 text-center">
+      <p style={instructionsStyle}>
         Use arrow keys or W/S to control your paddle • First to {WINNING_SCORE} wins
       </p>
     </div>

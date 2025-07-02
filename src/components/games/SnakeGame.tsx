@@ -54,14 +54,12 @@ const SnakeGame = () => {
       head.x += direction.x;
       head.y += direction.y;
 
-      // Check wall collision
       if (head.x < 0 || head.x >= BOARD_SIZE || head.y < 0 || head.y >= BOARD_SIZE) {
         setGameOver(true);
         setIsPlaying(false);
         return currentSnake;
       }
 
-      // Check self collision
       if (newSnake.some(segment => segment.x === head.x && segment.y === head.y)) {
         setGameOver(true);
         setIsPlaying(false);
@@ -70,7 +68,6 @@ const SnakeGame = () => {
 
       newSnake.unshift(head);
 
-      // Check food collision
       if (head.x === food.x && head.y === food.y) {
         setScore(prev => prev + 10);
         setFood(generateFood());
@@ -113,22 +110,122 @@ const SnakeGame = () => {
     return () => clearInterval(gameInterval);
   }, [moveSnake]);
 
+  const gameContainerStyle: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '100vh',
+    padding: '20px',
+    backgroundColor: '#1a1a1a',
+    fontFamily: 'Arial, sans-serif'
+  };
+
+  const headerStyle: React.CSSProperties = {
+    textAlign: 'center',
+    marginBottom: '30px',
+    color: 'white'
+  };
+
+  const titleStyle: React.CSSProperties = {
+    fontSize: '2.5rem',
+    fontWeight: 'bold',
+    margin: '0 0 10px 0',
+    color: '#00ff00'
+  };
+
+  const scoreStyle: React.CSSProperties = {
+    fontSize: '1.5rem',
+    margin: 0,
+    color: '#ffff00'
+  };
+
+  const gameAreaStyle: React.CSSProperties = {
+    position: 'relative'
+  };
+
+  const boardStyle: React.CSSProperties = {
+    display: 'grid',
+    gridTemplateColumns: `repeat(${BOARD_SIZE}, 20px)`,
+    gap: '1px',
+    padding: '10px',
+    backgroundColor: '#333',
+    border: '3px solid #00ff00',
+    borderRadius: '8px'
+  };
+
+  const cellStyle: React.CSSProperties = {
+    width: '20px',
+    height: '20px',
+    backgroundColor: '#000'
+  };
+
+  const snakeHeadStyle: React.CSSProperties = {
+    ...cellStyle,
+    backgroundColor: '#00ff00',
+    borderRadius: '3px'
+  };
+
+  const snakeBodyStyle: React.CSSProperties = {
+    ...cellStyle,
+    backgroundColor: '#008800',
+    borderRadius: '2px'
+  };
+
+  const foodStyle: React.CSSProperties = {
+    ...cellStyle,
+    backgroundColor: '#ff0000',
+    borderRadius: '50%'
+  };
+
+  const overlayStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '8px'
+  };
+
+  const gameOverStyle: React.CSSProperties = {
+    textAlign: 'center',
+    marginBottom: '20px',
+    color: 'white'
+  };
+
+  const buttonStyle: React.CSSProperties = {
+    padding: '12px 24px',
+    fontSize: '1.1rem',
+    fontWeight: 'bold',
+    backgroundColor: '#00ff00',
+    color: 'black',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s'
+  };
+
+  const instructionsStyle: React.CSSProperties = {
+    color: '#ccc',
+    marginTop: '20px',
+    textAlign: 'center',
+    fontSize: '0.9rem'
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <div className="text-center mb-6">
-        <h2 className="text-4xl font-bold text-white mb-2">Snake Game</h2>
-        <p className="text-2xl text-green-400">Score: {score}</p>
+    <div style={gameContainerStyle}>
+      <div style={headerStyle}>
+        <h2 style={titleStyle}>Snake Game</h2>
+        <p style={scoreStyle}>Score: {score}</p>
       </div>
 
-      <div className="relative">
-        <div 
-          className="grid gap-0 border-4 border-green-400 bg-black p-2 rounded-lg shadow-2xl"
-          style={{
-            gridTemplateColumns: `repeat(${BOARD_SIZE}, minmax(0, 1fr))`,
-            width: `${BOARD_SIZE * 20}px`,
-            height: `${BOARD_SIZE * 20}px`
-          }}
-        >
+      <div style={gameAreaStyle}>
+        <div style={boardStyle}>
           {Array.from({ length: BOARD_SIZE * BOARD_SIZE }).map((_, index) => {
             const x = index % BOARD_SIZE;
             const y = Math.floor(index / BOARD_SIZE);
@@ -136,34 +233,35 @@ const SnakeGame = () => {
             const isHead = snake[0]?.x === x && snake[0]?.y === y;
             const isFood = food.x === x && food.y === y;
 
+            let cellStyleToUse = cellStyle;
+            if (isSnake) {
+              cellStyleToUse = isHead ? snakeHeadStyle : snakeBodyStyle;
+            } else if (isFood) {
+              cellStyleToUse = foodStyle;
+            }
+
             return (
               <div
                 key={index}
-                className={`w-5 h-5 ${
-                  isSnake
-                    ? isHead
-                      ? 'bg-green-400 rounded-sm shadow-lg'
-                      : 'bg-green-600 rounded-sm'
-                    : isFood
-                    ? 'bg-red-500 rounded-full animate-pulse'
-                    : 'bg-gray-800'
-                }`}
+                style={cellStyleToUse}
               />
             );
           })}
         </div>
 
         {(!isPlaying || gameOver) && (
-          <div className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center rounded-lg">
+          <div style={overlayStyle}>
             {gameOver && (
-              <div className="text-center mb-4">
-                <h3 className="text-3xl font-bold text-red-400 mb-2">Game Over!</h3>
-                <p className="text-white">Final Score: {score}</p>
+              <div style={gameOverStyle}>
+                <h3 style={{ fontSize: '2rem', color: '#ff0000', margin: '0 0 10px 0' }}>Game Over!</h3>
+                <p style={{ margin: 0 }}>Final Score: {score}</p>
               </div>
             )}
             <button
               onClick={startGame}
-              className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg transition-colors"
+              style={buttonStyle}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#00cc00'}
+              onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#00ff00'}
             >
               {gameOver ? 'Play Again' : 'Start Game'}
             </button>
@@ -171,7 +269,7 @@ const SnakeGame = () => {
         )}
       </div>
 
-      <p className="text-gray-400 mt-4 text-center">
+      <p style={instructionsStyle}>
         Use arrow keys to control the snake • Eat the red food to grow
       </p>
     </div>

@@ -54,77 +54,192 @@ const TicTacToeGame = () => {
     setGameOver(false);
   };
 
-  const getCellClass = (index: number) => {
-    let baseClass = "w-20 h-20 border-2 border-purple-400 bg-gray-800 hover:bg-gray-700 transition-all duration-200 flex items-center justify-center text-4xl font-bold cursor-pointer transform hover:scale-105";
-    
-    if (winningLine?.includes(index)) {
-      baseClass += " bg-gradient-to-br from-yellow-400 to-orange-500 animate-pulse";
-    }
-    
-    if (board[index]) {
-      baseClass += " cursor-not-allowed";
-    }
+  const gameContainerStyle: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '100vh',
+    padding: '20px',
+    backgroundColor: '#1a1a1a',
+    fontFamily: 'Arial, sans-serif'
+  };
 
-    return baseClass;
+  const headerStyle: React.CSSProperties = {
+    textAlign: 'center',
+    marginBottom: '40px',
+    color: 'white'
+  };
+
+  const titleStyle: React.CSSProperties = {
+    fontSize: '2.5rem',
+    fontWeight: 'bold',
+    margin: '0 0 20px 0',
+    color: '#ff00ff'
+  };
+
+  const currentPlayerStyle: React.CSSProperties = {
+    fontSize: '1.5rem',
+    margin: 0,
+    color: '#ccc'
+  };
+
+  const gameOverTextStyle: React.CSSProperties = {
+    fontSize: '2rem',
+    fontWeight: 'bold',
+    margin: '0 0 10px 0',
+    color: '#ffff00'
+  };
+
+  const drawTextStyle: React.CSSProperties = {
+    fontSize: '1.5rem',
+    fontWeight: 'bold',
+    margin: 0,
+    color: '#ccc'
+  };
+
+  const boardStyle: React.CSSProperties = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: '5px',
+    padding: '20px',
+    backgroundColor: '#333',
+    borderRadius: '10px',
+    border: '3px solid #ff00ff'
+  };
+
+  const cellBaseStyle: React.CSSProperties = {
+    width: '80px',
+    height: '80px',
+    backgroundColor: '#555',
+    border: '2px solid #777',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '2rem',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+    borderRadius: '5px'
+  };
+
+  const winningCellStyle: React.CSSProperties = {
+    ...cellBaseStyle,
+    backgroundColor: '#ffff00',
+    color: '#000'
+  };
+
+  const xStyle: React.CSSProperties = {
+    color: '#00aaff'
+  };
+
+  const oStyle: React.CSSProperties = {
+    color: '#ff4444'
+  };
+
+  const buttonStyle: React.CSSProperties = {
+    marginTop: '30px',
+    padding: '12px 24px',
+    fontSize: '1.1rem',
+    fontWeight: 'bold',
+    backgroundColor: '#ff00ff',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s'
+  };
+
+  const instructionsStyle: React.CSSProperties = {
+    marginTop: '30px',
+    textAlign: 'center',
+    color: '#ccc',
+    fontSize: '0.9rem'
+  };
+
+  const playersStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    marginTop: '10px',
+    fontSize: '1.2rem',
+    fontWeight: 'bold'
   };
 
   const getPlayerColor = (player: Player) => {
-    if (player === 'X') return 'text-blue-400';
-    if (player === 'O') return 'text-red-400';
-    return '';
+    if (player === 'X') return xStyle;
+    if (player === 'O') return oStyle;
+    return {};
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <div className="text-center mb-8">
-        <h2 className="text-4xl font-bold text-white mb-4">Tic Tac Toe</h2>
+    <div style={gameContainerStyle}>
+      <div style={headerStyle}>
+        <h2 style={titleStyle}>Tic Tac Toe</h2>
         
         {!gameOver && (
-          <p className="text-2xl text-gray-300">
-            Current Player: <span className={`font-bold ${getPlayerColor(currentPlayer)}`}>{currentPlayer}</span>
+          <p style={currentPlayerStyle}>
+            Current Player: <span style={getPlayerColor(currentPlayer)}>{currentPlayer}</span>
           </p>
         )}
         
         {winner && (
-          <div className="animate-bounce">
-            <p className="text-3xl font-bold text-yellow-400 mb-2">
+          <div>
+            <p style={gameOverTextStyle}>
               🎉 Player {winner} Wins! 🎉
             </p>
           </div>
         )}
         
         {gameOver && !winner && (
-          <p className="text-2xl font-bold text-gray-400">It's a Draw!</p>
+          <p style={drawTextStyle}>It's a Draw!</p>
         )}
       </div>
 
-      <div className="grid grid-cols-3 gap-2 p-4 bg-gray-900 rounded-2xl shadow-2xl border-4 border-purple-600">
-        {board.map((cell, index) => (
-          <div
-            key={index}
-            className={getCellClass(index)}
-            onClick={() => handleCellClick(index)}
-          >
-            <span className={getPlayerColor(cell)}>
-              {cell}
-            </span>
-          </div>
-        ))}
+      <div style={boardStyle}>
+        {board.map((cell, index) => {
+          const isWinningCell = winningLine?.includes(index);
+          const cellStyle = isWinningCell ? winningCellStyle : cellBaseStyle;
+          
+          return (
+            <div
+              key={index}
+              style={cellStyle}
+              onClick={() => handleCellClick(index)}
+              onMouseOver={(e) => {
+                if (!cell && !gameOver) {
+                  e.currentTarget.style.backgroundColor = '#666';
+                }
+              }}
+              onMouseOut={(e) => {
+                if (!isWinningCell) {
+                  e.currentTarget.style.backgroundColor = '#555';
+                }
+              }}
+            >
+              <span style={getPlayerColor(cell)}>
+                {cell}
+              </span>
+            </div>
+          );
+        })}
       </div>
 
       <button
         onClick={resetGame}
-        className="mt-8 px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold rounded-lg transform hover:scale-105 transition-all duration-200 shadow-lg"
+        style={buttonStyle}
+        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#cc00cc'}
+        onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#ff00ff'}
       >
         New Game
       </button>
 
-      <div className="mt-6 text-center">
-        <p className="text-gray-400">Click on a cell to make your move</p>
-        <div className="flex items-center justify-center gap-4 mt-2">
-          <span className="text-blue-400 font-bold">X</span>
-          <span className="text-gray-500">vs</span>
-          <span className="text-red-400 font-bold">O</span>
+      <div style={instructionsStyle}>
+        <p>Click on a cell to make your move</p>
+        <div style={playersStyle}>
+          <span style={xStyle}>X</span>
+          <span style={{ color: '#888' }}>vs</span>
+          <span style={oStyle}>O</span>
         </div>
       </div>
     </div>
