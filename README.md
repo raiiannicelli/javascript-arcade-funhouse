@@ -1,73 +1,100 @@
-# Welcome to your Lovable project
+# JavaScript Arcade Funhouse
 
-## Project info
+Bem-vindo ao **JavaScript Arcade Funhouse**, uma coletânea de jogos clássicos (Pong, Snake, Flappy Bird, e mais!) construídos com HTML, CSS e JavaScript puros.
 
-**URL**: https://lovable.dev/projects/d38a829d-317b-430b-9d0a-fa107d6c5d8e
+---
 
-## How can I edit this code?
+###
+## 📋 Pré-requisitos
 
-There are several ways of editing your application.
+- **Git** instalado  
+- **Node.js** (v14 ou superior) e **npm**  
+- Navegador moderno (Chrome, Firefox, Edge, Safari, etc.)
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/d38a829d-317b-430b-9d0a-fa107d6c5d8e) and start prompting.
+###
+## 🔽 1. Clonar o repositório
 
-Changes made via Lovable will be committed automatically to this repo.
+No seu terminal, digite:
 
-**Use your preferred IDE**
+```bash
+git clone https://github.com/raiiannicelli/javascript-arcade-house.git
+cd javascript-arcade-funhouse
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+⚙️ 2. Instalar dependências e gerar build
+Instale as dependências do projeto:
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+npm install
+Execute o build para gerar a pasta dist/:
 
-Follow these steps:
+npm run build
+Os arquivos finais ficarão em dist/, prontos para publicação.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+###
+**▶️ 3. Executar localmente**
+Opção A: Abrir diretamente
+Navegue até a pasta do jogo desejado (por exemplo, pong/ ou snake/) e abra o index.html no navegador.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Opção B: Servidor HTTP simples
+Alguns recursos (como áudio) funcionam melhor via HTTP. Na raiz do projeto, rode:
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Python 3
+python -m http.server 8000
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+# se preferir usar o npm:
+npm install --global serve
+serve -s dist -l 8000
 
-**Edit a file directly in GitHub**
+Depois, abra no navegador:
+http://localhost:8000/pong/
+http://localhost:8000/snake/
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+###
+**🌐 4. Publicar no GitHub Pages**
+4.1. Criar branch gh-pages
+git checkout --orphan gh-pages
+git rm -rf .
+cp -r dist/* .
+git add .
+git commit -m "Deploy para GitHub Pages"
+git push origin gh-pages --force
 
-**Use GitHub Codespaces**
+4.2. Configurar no GitHub
+Acesse Settings > Pages no repositório.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Em Source, escolha:
+Branch: gh-pages
+Folder: / (root)
+Clique em salvar
 
-## What technologies are used for this project?
+Após alguns minutos, seu site estará disponível em:
+https://<seu-nome>.github.io/arcade-house/
 
-This project is built with:
+###
+**📝 Estrutura do Repositório**
+javascript-arcade-funhouse/
+├── dist/          # Build gerado (usado no deploy)
+├── pong/          # Código-fonte do Pong
+│   ├── index.html
+│   └── script.js
+├── snake/         # Código-fonte do Snake
+│   ├── index.html
+│   └── script.js
+├── flappybird/    # Código-fonte do Flappy Bird
+│   ├── index.html
+│   └── script.js
+├── package.json
+└── README.md      # Este arquivo
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+###
+**🤝 Contribuições**
+Fork este repositório
 
-## How can I deploy this project?
+Crie uma branch: git checkout -b feature/nome-da-feature
 
-Simply open [Lovable](https://lovable.dev/projects/d38a829d-317b-430b-9d0a-fa107d6c5d8e) and click on Share -> Publish.
+Faça suas alterações e commite: git commit -m "Descrição da feature"
 
-## Can I connect a custom domain to my Lovable project?
+Push para sua branch: git push origin feature/nome-da-feature
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Abra um Pull Request
