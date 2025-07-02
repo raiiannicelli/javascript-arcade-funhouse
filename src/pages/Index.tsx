@@ -1,5 +1,8 @@
 
 import { useState } from 'react';
+import SnakeGame from '../components/games/SnakeGame';
+import PongGame from '../components/games/PongGame';
+import TicTacToeGame from '../components/games/TicTacToeGame';
 
 const Index = () => {
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
@@ -7,22 +10,22 @@ const Index = () => {
   const games = [
     {
       id: 'snake',
-      name: 'Snake',
-      description: 'Classic snake game - eat the food and grow!',
+      name: 'Cobrinha',
+      description: 'Jogo clássico da cobrinha - coma a comida e cresça!',
       color: '#00ff00',
       icon: '🐍'
     },
     {
       id: 'pong', 
       name: 'Pong',
-      description: 'Classic arcade pong - beat the AI!',
+      description: 'Arcade clássico pong - vença a IA!',
       color: '#00ccff',
       icon: '🏓'
     },
     {
       id: 'tictactoe',
-      name: 'Tic Tac Toe',
-      description: 'Classic strategy game - get three in a row!',
+      name: 'Jogo da Velha',
+      description: 'Jogo de estratégia clássico - faça três em linha!',
       color: '#ff00ff',
       icon: '⭕'
     }
@@ -31,13 +34,10 @@ const Index = () => {
   const renderGame = () => {
     switch (selectedGame) {
       case 'snake':
-        const SnakeGame = require('../components/games/SnakeGame').default;
         return <SnakeGame />;
       case 'pong':
-        const PongGame = require('../components/games/PongGame').default;
         return <PongGame />;
       case 'tictactoe':
-        const TicTacToeGame = require('../components/games/TicTacToeGame').default;
         return <TicTacToeGame />;
       default:
         return null;
@@ -75,7 +75,7 @@ const Index = () => {
             e.currentTarget.style.borderColor = '#666';
           }}
         >
-          ← Back to Games
+          ← Voltar aos Jogos
         </button>
         {renderGame()}
       </div>
@@ -170,9 +170,9 @@ const Index = () => {
       <div style={headerStyle}>
         <div style={iconStyle}>🎮</div>
         <h1 style={titleStyle}>
-          Retro Games
+          Jogos Retrô
         </h1>
-        <p style={subtitleStyle}>Choose your classic adventure</p>
+        <p style={subtitleStyle}>Escolha sua aventura clássica</p>
       </div>
 
       <div style={gamesGridStyle}>
@@ -198,7 +198,7 @@ const Index = () => {
       </div>
 
       <div style={instructionsStyle}>
-        <p>Use arrow keys and spacebar to play • Click cards to start</p>
+        <p>Use as setas do teclado e barra de espaço para jogar • Clique nos cards para começar</p>
       </div>
     </div>
   );

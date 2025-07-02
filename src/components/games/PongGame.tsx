@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useCallback, useRef } from 'react';
 
 const PongGame = () => {
@@ -324,8 +325,8 @@ const PongGame = () => {
       <div style={headerStyle}>
         <h2 style={titleStyle}>Pong</h2>
         <div style={scoreContainerStyle}>
-          <span style={playerScoreStyle}>Player: {score.player}</span>
-          <span style={aiScoreStyle}>AI: {score.ai}</span>
+          <span style={playerScoreStyle}>Jogador: {score.player}</span>
+          <span style={aiScoreStyle}>IA: {score.ai}</span>
         </div>
       </div>
 
@@ -342,10 +343,10 @@ const PongGame = () => {
             {gameOver && (
               <div style={gameOverStyle}>
                 <h3 style={{ fontSize: '2rem', color: '#00ccff', margin: '0 0 10px 0' }}>
-                  {score.player >= WINNING_SCORE ? 'You Win!' : 'AI Wins!'}
+                  {score.player >= WINNING_SCORE ? 'Você Venceu!' : 'IA Venceu!'}
                 </h3>
                 <p style={{ margin: 0 }}>
-                  Final Score: {score.player} - {score.ai}
+                  Placar Final: {score.player} - {score.ai}
                 </p>
               </div>
             )}
@@ -355,14 +356,14 @@ const PongGame = () => {
               onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0099cc'}
               onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#00ccff'}
             >
-              {gameOver ? 'Play Again' : 'Start Game'}
+              {gameOver ? 'Jogar Novamente' : 'Iniciar Jogo'}
             </button>
           </div>
         )}
       </div>
 
       <p style={instructionsStyle}>
-        Use arrow keys or W/S to control your paddle • First to {WINNING_SCORE} wins
+        Use as setas do teclado ou W/S para controlar sua raquete • Primeiro a {WINNING_SCORE} pontos vence
       </p>
     </div>
   );

@@ -220,8 +220,8 @@ const SnakeGame = () => {
   return (
     <div style={gameContainerStyle}>
       <div style={headerStyle}>
-        <h2 style={titleStyle}>Snake Game</h2>
-        <p style={scoreStyle}>Score: {score}</p>
+        <h2 style={titleStyle}>Jogo da Cobrinha</h2>
+        <p style={scoreStyle}>Pontuação: {score}</p>
       </div>
 
       <div style={gameAreaStyle}>
@@ -253,8 +253,8 @@ const SnakeGame = () => {
           <div style={overlayStyle}>
             {gameOver && (
               <div style={gameOverStyle}>
-                <h3 style={{ fontSize: '2rem', color: '#ff0000', margin: '0 0 10px 0' }}>Game Over!</h3>
-                <p style={{ margin: 0 }}>Final Score: {score}</p>
+                <h3 style={{ fontSize: '2rem', color: '#ff0000', margin: '0 0 10px 0' }}>Fim de Jogo!</h3>
+                <p style={{ margin: 0 }}>Pontuação Final: {score}</p>
               </div>
             )}
             <button
@@ -263,14 +263,14 @@ const SnakeGame = () => {
               onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#00cc00'}
               onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#00ff00'}
             >
-              {gameOver ? 'Play Again' : 'Start Game'}
+              {gameOver ? 'Jogar Novamente' : 'Iniciar Jogo'}
             </button>
           </div>
         )}
       </div>
 
       <p style={instructionsStyle}>
-        Use arrow keys to control the snake • Eat the red food to grow
+        Use as setas do teclado para controlar a cobra • Coma a comida vermelha para crescer
       </p>
     </div>
   );

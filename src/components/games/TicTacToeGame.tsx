@@ -12,9 +12,9 @@ const TicTacToeGame = () => {
   const [gameOver, setGameOver] = useState(false);
 
   const winningCombinations = [
-    [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
-    [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
-    [0, 4, 8], [2, 4, 6] // Diagonals
+    [0, 1, 2], [3, 4, 5], [6, 7, 8], // Linhas
+    [0, 3, 6], [1, 4, 7], [2, 5, 8], // Colunas
+    [0, 4, 8], [2, 4, 6] // Diagonais
   ];
 
   const checkWinner = (board: Board): { winner: Player; line: number[] | null } => {
@@ -175,24 +175,24 @@ const TicTacToeGame = () => {
   return (
     <div style={gameContainerStyle}>
       <div style={headerStyle}>
-        <h2 style={titleStyle}>Tic Tac Toe</h2>
+        <h2 style={titleStyle}>Jogo da Velha</h2>
         
         {!gameOver && (
           <p style={currentPlayerStyle}>
-            Current Player: <span style={getPlayerColor(currentPlayer)}>{currentPlayer}</span>
+            Jogador Atual: <span style={getPlayerColor(currentPlayer)}>{currentPlayer}</span>
           </p>
         )}
         
         {winner && (
           <div>
             <p style={gameOverTextStyle}>
-              🎉 Player {winner} Wins! 🎉
+              🎉 Jogador {winner} Venceu! 🎉
             </p>
           </div>
         )}
         
         {gameOver && !winner && (
-          <p style={drawTextStyle}>It's a Draw!</p>
+          <p style={drawTextStyle}>Empate!</p>
         )}
       </div>
 
@@ -231,11 +231,11 @@ const TicTacToeGame = () => {
         onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#cc00cc'}
         onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#ff00ff'}
       >
-        New Game
+        Novo Jogo
       </button>
 
       <div style={instructionsStyle}>
-        <p>Click on a cell to make your move</p>
+        <p>Clique em uma célula para fazer sua jogada</p>
         <div style={playersStyle}>
           <span style={xStyle}>X</span>
           <span style={{ color: '#888' }}>vs</span>
