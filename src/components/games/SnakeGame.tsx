@@ -86,6 +86,8 @@ const SnakeGame = () => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (!isPlaying) return;
       
+      e.preventDefault();
+      
       switch (e.key) {
         case 'ArrowUp':
           if (direction.y !== 1) setDirection({ x: 0, y: -1 });
@@ -119,7 +121,14 @@ const SnakeGame = () => {
       </div>
 
       <div className="relative">
-        <div className="grid grid-cols-20 gap-0 border-4 border-green-400 bg-black p-2 rounded-lg shadow-2xl">
+        <div 
+          className="grid gap-0 border-4 border-green-400 bg-black p-2 rounded-lg shadow-2xl"
+          style={{
+            gridTemplateColumns: `repeat(${BOARD_SIZE}, minmax(0, 1fr))`,
+            width: `${BOARD_SIZE * 20}px`,
+            height: `${BOARD_SIZE * 20}px`
+          }}
+        >
           {Array.from({ length: BOARD_SIZE * BOARD_SIZE }).map((_, index) => {
             const x = index % BOARD_SIZE;
             const y = Math.floor(index / BOARD_SIZE);
@@ -130,7 +139,7 @@ const SnakeGame = () => {
             return (
               <div
                 key={index}
-                className={`w-4 h-4 ${
+                className={`w-5 h-5 ${
                   isSnake
                     ? isHead
                       ? 'bg-green-400 rounded-sm shadow-lg'

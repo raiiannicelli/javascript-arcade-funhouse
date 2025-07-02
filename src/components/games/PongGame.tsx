@@ -174,13 +174,19 @@ const PongGame = () => {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      e.preventDefault();
+      
       switch (e.key) {
         case 'ArrowUp':
+          gameState.current.keys.up = true;
+          break;
+        case 'ArrowDown':
+          gameState.current.keys.down = true;
+          break;
         case 'w':
         case 'W':
           gameState.current.keys.up = true;
           break;
-        case 'ArrowDown':
         case 's':
         case 'S':
           gameState.current.keys.down = true;
@@ -191,11 +197,15 @@ const PongGame = () => {
     const handleKeyUp = (e: KeyboardEvent) => {
       switch (e.key) {
         case 'ArrowUp':
+          gameState.current.keys.up = false;
+          break;
+        case 'ArrowDown':
+          gameState.current.keys.down = false;
+          break;
         case 'w':
         case 'W':
           gameState.current.keys.up = false;
           break;
-        case 'ArrowDown':
         case 's':
         case 'S':
           gameState.current.keys.down = false;
@@ -237,7 +247,7 @@ const PongGame = () => {
           ref={canvasRef}
           width={CANVAS_WIDTH}
           height={CANVAS_HEIGHT}
-          className="border-4 border-cyan-400 rounded-lg shadow-2xl bg-black"
+          className="border-4 border-cyan-400 rounded-lg shadow-2xl bg-black cursor-none"
         />
 
         {(!gameStarted || gameOver) && (
